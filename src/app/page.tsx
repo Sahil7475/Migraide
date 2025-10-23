@@ -1,12 +1,14 @@
-import { useNavigate } from "react-router-dom";
+'use client'
+
+import { useRouter } from "next/navigation";
 import { MigrationSelector } from "@/components/MigrationSelector";
 import { Code2, Sparkles } from "lucide-react";
 
-const Index = () => {
-  const navigate = useNavigate();
+export default function HomePage() {
+  const router = useRouter();
 
   const handleAnalyze = (source: string, target: string) => {
-    navigate("/analysis", { state: { source, target } });
+    router.push(`/analysis?source=${encodeURIComponent(source)}&target=${encodeURIComponent(target)}`);
   };
 
   return (
@@ -69,6 +71,4 @@ const Index = () => {
       </div>
     </div>
   );
-};
-
-export default Index;
+}
