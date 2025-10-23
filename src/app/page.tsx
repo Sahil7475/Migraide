@@ -62,7 +62,7 @@ export default function HomePage() {
             <div className="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center mx-auto mb-4">
               <Code2 className="w-6 h-6 text-primary" />
             </div>
-            <h3 className="text-lg font-semibold mb-2">Official Documentation</h3>
+            <h3 className="text-lg font-semibold mb-2">Documentation & Resources</h3>
             <p className="text-sm text-muted-foreground">
               Aggregated links to official guides, changelogs, and community resources
             </p>
