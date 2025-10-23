@@ -7,62 +7,8 @@ import { Code2, Sparkles } from "lucide-react";
 export default function HomePage() {
   const router = useRouter();
 
-  const handleAnalyze = (data: any) => {
-    const params = new URLSearchParams({
-      category: data.category,
-    });
-
-    switch (data.category) {
-      case "framework-version":
-        params.append('language', data.language);
-        params.append('framework', data.framework);
-        params.append('sourceVersion', data.sourceVersion);
-        params.append('targetVersion', data.targetVersion);
-        if (data.selectedLibraries) {
-          params.append('libraries', data.selectedLibraries.join(','));
-        }
-        break;
-        
-      case "framework-migrate":
-        params.append('language', data.language);
-        params.append('sourceFramework', data.sourceFramework);
-        params.append('targetFramework', data.targetFramework);
-        if (data.sourceFrameworkVersion) {
-          params.append('sourceFrameworkVersion', data.sourceFrameworkVersion);
-        }
-        if (data.targetFrameworkVersion) {
-          params.append('targetFrameworkVersion', data.targetFrameworkVersion);
-        }
-        break;
-        
-      case "language":
-        params.append('sourceLanguage', data.sourceLanguage);
-        params.append('targetLanguage', data.targetLanguage);
-        params.append('sourceLanguageVersion', data.sourceLanguageVersion);
-        params.append('targetLanguageVersion', data.targetLanguageVersion);
-        break;
-        
-      case "library-migration":
-        params.append('language', data.language);
-        params.append('sourceLibrary', data.sourceLibrary);
-        params.append('targetLibrary', data.targetLibrary);
-        params.append('sourceLibraryVersion', data.sourceLibraryVersion);
-        if (data.targetLibraryVersion) {
-          params.append('targetLibraryVersion', data.targetLibraryVersion);
-        }
-        break;
-        
-      case "package-manager":
-        params.append('language', data.language);
-        params.append('sourcePackageManager', data.sourcePackageManager);
-        params.append('targetPackageManager', data.targetPackageManager);
-        if (data.projectType) {
-          params.append('projectType', data.projectType);
-        }
-        break;
-    }
-
-    router.push(`/analysis?${params.toString()}`);
+  const handleAnalyze = (source: string, target: string) => {
+    router.push(`/analysis?source=${encodeURIComponent(source)}&target=${encodeURIComponent(target)}`);
   };
 
   return (
@@ -76,8 +22,8 @@ export default function HomePage() {
               <Code2 className="w-10 h-10 text-primary" />
               <Sparkles className="w-6 h-6 text-accent" />
             </div>
-            <h1 className="text-[3rem] font-bold mb-4 bg-gradient-primary bg-clip-text text-transparent">
-                Migraide
+            <h1 className="text-5xl font-bold mb-4 bg-gradient-primary bg-clip-text text-transparent">
+              Migration Assistant
             </h1>
             <p className="text-xl text-muted-foreground">
               Plan and execute seamless migrations between frameworks, versions, and languages.
