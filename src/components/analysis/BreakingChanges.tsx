@@ -1,3 +1,5 @@
+'use client'
+
 import { BreakingChange } from "@/types/migration";
 import { Card } from "@/components/ui/card";
 import { SeverityBadge } from "@/components/SeverityBadge";

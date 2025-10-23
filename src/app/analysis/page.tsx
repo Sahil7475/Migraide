@@ -1,4 +1,6 @@
-import { useLocation, useNavigate } from "react-router-dom";
+'use client'
+
+import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BreakingChanges } from "@/components/analysis/BreakingChanges";
@@ -8,14 +10,28 @@ import { MigrationRoadmap } from "@/components/analysis/MigrationRoadmap";
 import { Documentation } from "@/components/analysis/Documentation";
 import { react17to18Migration } from "@/data/react17to18";
 import { ArrowLeft, Download } from "lucide-react";
+import { useEffect, useState } from "react";
 
-const Analysis = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const { source, target } = location.state || {};
+export default function AnalysisPage() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [source, setSource] = useState<string | null>(null);
+  const [target, setTarget] = useState<string | null>(null);
+
+  useEffect(() => {
+    const sourceParam = searchParams.get('source');
+    const targetParam = searchParams.get('target');
+    
+    if (!sourceParam || !targetParam) {
+      router.push("/");
+      return;
+    }
+    
+    setSource(sourceParam);
+    setTarget(targetParam);
+  }, [searchParams, router]);
 
   if (!source || !target) {
-    navigate("/");
     return null;
   }
 
@@ -28,7 +44,7 @@ const Analysis = () => {
         <div className="container mx-auto px-4 py-6">
           <Button
             variant="ghost"
-            onClick={() => navigate("/")}
+            onClick={() => router.push("/")}
             className="mb-4"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
@@ -86,6 +102,4 @@ const Analysis = () => {
       </div>
     </div>
   );
-};
-
-export default Analysis;
+}
