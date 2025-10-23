@@ -86,7 +86,7 @@ const librariesByFramework: Record<string, string[]> = {
     "Django Channels", "Django Debug Toolbar", "Django Extensions", "Pytest"
   ],
   Flask: [
-    "Flask-SQLAlchemy", "Flask-Migrate", "Flask-Login", "Flask-WTF", "Flask-Mail",
+    "Flask-SQLAlchemy", "Flask-Migrate", "Flask-Login", "Flask-WTFt", "Flask-Mail",
     "Celery", "Redis", "Gunicorn", "Pytest", "Flask-CORS"
   ]
 };
