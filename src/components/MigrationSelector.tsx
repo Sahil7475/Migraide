@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from "react";
+import { useState, useRef,useMemo } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -197,85 +197,700 @@ const languageVersions: Record<string, string[]> = {
 
 export const MigrationSelector = ({ onAnalyze }: MigrationSelectorProps) => {
   const [category, setCategory] = useState("");
-  const [source, setSource] = useState("");
-  const [target, setTarget] = useState("");
+  const [language, setLanguage] = useState("");
+  const [framework, setFramework] = useState("");
+  const [selectedLibrary, setSelectedLibrary] = useState("");
+  const [sourceVersion, setSourceVersion] = useState("");
+  const [targetVersion, setTargetVersion] = useState("");
+  const [selectedLibraries, setSelectedLibraries] = useState<string[]>([]);
+  const [file, setFile] = useState<File | null>(null);
+  
+  // Framework Migration states
+  const [sourceFramework, setSourceFramework] = useState("");
+  const [targetFramework, setTargetFramework] = useState("");
+  const [sourceFrameworkVersion, setSourceFrameworkVersion] = useState("");
+  const [targetFrameworkVersion, setTargetFrameworkVersion] = useState("");
+  
+  // Language Migration states
+  const [sourceLanguage, setSourceLanguage] = useState("");
+  const [targetLanguage, setTargetLanguage] = useState("");
+  const [sourceLanguageVersion, setSourceLanguageVersion] = useState("");
+  const [targetLanguageVersion, setTargetLanguageVersion] = useState("");
+  
+  // Library Migration states
+  const [sourceLibrary, setSourceLibrary] = useState("");
+  const [targetLibrary, setTargetLibrary] = useState("");
+  const [sourceLibraryVersion, setSourceLibraryVersion] = useState("");
+  const [targetLibraryVersion, setTargetLibraryVersion] = useState("");
+  
+  // Package Manager Migration states
+  const [sourcePackageManager, setSourcePackageManager] = useState("");
+  const [targetPackageManager, setTargetPackageManager] = useState("");
+  const [projectType, setProjectType] = useState("");
+
+  const frameworkOptions = language ? frameworksByLanguage[language] || [] : [];
+  const versionOptions = framework ? versionsByFramework[framework] || [] : [];
+  const libraryOptions = framework ? librariesByFramework[framework] || [] : [];
+  const libraryVersionOptions = selectedLibrary ? versionsByLibrary[selectedLibrary] || [] : [];
+  const packageManagerOptions = language ? packageManagersByLanguage[language] || [] : [];
+  const languageVersionOptions = (lang: string) => languageVersions[lang] || [];
+
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const fileLabel = useMemo(() => {
+    const lang = language?.toLowerCase();
+    const mapping = dependencyFileByLanguage[lang];
+  
+    if (!mapping) {
+      return "Upload your project’s dependency/configuration file (e.g., package.json, csproj, pom.xml)";
+    }
+  
+    switch (category) {
+      case "framework-version":
+        return `Upload your ${mapping.file} (${mapping.desc}) to detect framework version and dependencies`;
+      case "framework-migrate":
+        return `Upload your ${mapping.file} (${mapping.desc}) to analyze your current setup for migration`;
+      case "language":
+        return `Upload your ${mapping.file} (${mapping.desc}) to help detect project dependencies`;
+      case "library-migration":
+        return `Upload your ${mapping.file} (${mapping.desc}) to identify libraries and versions`;
+      default:
+        return `Upload your ${mapping.file} (${mapping.desc})`;
+    }
+  }, [language, category]);
+
+  const fileAccept = useMemo(() => {
+    const lang = language?.toLowerCase();
+    switch (lang) {
+      case "javascript":
+      case "typescript":
+      case "php":
+        return ".json";
+      case "csharp":
+        return ".csproj";
+      case "java":
+        return ".xml,.gradle";
+      case "python":
+        return ".txt,.toml";
+      case "go":
+        return ".mod";
+      case "rust":
+        return ".toml";
+      case "ruby":
+        return "";
+      default:
+        return ".json,.xml,.txt,.csproj";
+    }
+  }, [language]);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setFile(e.target.files[0]);
+    }
+  };
+
+  const handleLibraryToggle = (library: string) => {
+    setSelectedLibraries(prev => 
+      prev.includes(library) 
+        ? prev.filter(lib => lib !== library)
+        : [...prev, library]
+    );
+  };
 
   const handleAnalyze = () => {
-    if (source && target) {
-      onAnalyze(source, target);
+    switch (category) {
+      case "framework-version":
+        if (language && framework && sourceVersion && targetVersion) {
+          onAnalyze({ 
+            category, 
+            language, 
+            framework, 
+            sourceVersion, 
+            targetVersion, 
+            selectedLibraries,
+            file 
+          });
+        }
+        break;
+        
+      case "framework-migrate":
+        if (sourceLanguage && targetLanguage && sourceFramework && targetFramework) {
+          onAnalyze({ 
+            category, 
+            sourceLanguage,
+            targetLanguage,
+            sourceFramework,
+            targetFramework,
+            sourceFrameworkVersion: sourceFrameworkVersion || null,
+            targetFrameworkVersion: targetFrameworkVersion || null,
+            file 
+          });
+        }
+        break;
+        
+      case "language":
+        if (sourceLanguage && targetLanguage && sourceLanguageVersion && targetLanguageVersion) {
+          onAnalyze({ 
+            category, 
+            sourceLanguage,
+            targetLanguage,
+            sourceLanguageVersion,
+            targetLanguageVersion,
+            file 
+          });
+        }
+        break;
+        
+      case "library-migration":
+        if (language && sourceLibrary && targetLibrary && sourceLibraryVersion && targetLibraryVersion) {
+          onAnalyze({ 
+            category, 
+            language,
+            sourceLibrary,
+            targetLibrary,
+            sourceLibraryVersion,
+            targetLibraryVersion,
+            file 
+          });
+        }
+        break;
+        
+      case "package-manager":
+        if (language && sourcePackageManager && targetPackageManager) {
+          onAnalyze({ 
+            category, 
+            language,
+            sourcePackageManager,
+            targetPackageManager,
+            projectType: projectType || null,
+            file 
+          });
+        }
+        break;
     }
+  };
+
+  const handleDivClick = () => {
+    inputRef.current?.click(); // programmatically open file selector
   };
 
   return (
     <Card className="p-8 max-w-3xl mx-auto">
       <div className="space-y-6">
-        <div>
+      <div>
           <h2 className="text-2xl font-bold mb-2">Select Migration Type</h2>
           <p className="text-muted-foreground">
             Choose what you want to migrate and we'll analyze the changes
           </p>
         </div>
 
-        <div className="space-y-4">
-          <div>
-            <label className="text-sm font-medium mb-2 block">Category</label>
-            <Select value={category} onValueChange={setCategory}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select migration category" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="framework-version">Framework Version Upgrade</SelectItem>
-                <SelectItem value="framework-switch">Framework Switch</SelectItem>
-                <SelectItem value="language">Language Migration</SelectItem>
-                <SelectItem value="backend">Backend Framework</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="text-sm font-medium mb-2 block">From</label>
-              <Select value={source} onValueChange={setSource}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Source version" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="react-17">React 17.x</SelectItem>
-                  <SelectItem value="vue-2">Vue 2.x</SelectItem>
-                  <SelectItem value="angular-14">Angular 14</SelectItem>
-                  <SelectItem value="nextjs-12">Next.js 12</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
 
-            <div>
-              <label className="text-sm font-medium mb-2 block">To</label>
-              <Select value={target} onValueChange={setTarget}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Target version" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="react-18">React 18.x</SelectItem>
-                  <SelectItem value="vue-3">Vue 3.x</SelectItem>
-                  <SelectItem value="angular-15">Angular 15</SelectItem>
-                  <SelectItem value="nextjs-13">Next.js 13</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-
-          <div className="border-2 border-dashed border-border rounded-lg p-6 text-center hover:border-primary transition-colors cursor-pointer">
-            <Upload className="w-8 h-8 mx-auto mb-2 text-muted-foreground" />
-            <p className="text-sm font-medium mb-1">Upload package.json (Optional)</p>
-            <p className="text-xs text-muted-foreground">
-              We'll analyze your dependencies for compatibility
-            </p>
-          </div>
+        {/* Step 1: Category */}
+        <div>
+          <label className="text-sm font-medium mb-2 block">Category</label>
+          <Select value={category} onValueChange={(val) => { 
+            setCategory(val); 
+            // Reset all states
+            setLanguage(""); 
+            setFramework(""); 
+            setSelectedLibrary("");
+            setSourceVersion(""); 
+            setTargetVersion(""); 
+            setSelectedLibraries([]);
+            setSourceFramework("");
+            setTargetFramework("");
+            setSourceFrameworkVersion("");
+            setTargetFrameworkVersion("");
+            setSourceLanguage("");
+            setTargetLanguage("");
+            setSourceLanguageVersion("");
+            setTargetLanguageVersion("");
+            setSourceLibrary("");
+            setTargetLibrary("");
+            setSourceLibraryVersion("");
+            setTargetLibraryVersion("");
+            setSourcePackageManager("");
+            setTargetPackageManager("");
+            setProjectType("");
+          }}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select migration category" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="framework-version">Framework Version Upgrade</SelectItem>
+              <SelectItem value="framework-migrate">Framework Migrate</SelectItem>
+              <SelectItem value="language">Language Migration</SelectItem>
+              <SelectItem value="library-migration">Library Migration</SelectItem>
+              <SelectItem value="package-manager">Package Manager Migration</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
 
+        {/* Framework Version Upgrade Flow */}
+        {category === "framework-version" && (
+          <>
+            {/* Programming Language */}
+            <div>
+              <label className="text-sm font-medium mb-2 block">Programming Language</label>
+              <Select value={language} onValueChange={(val) => { setLanguage(val); setFramework(""); setSourceVersion(""); setTargetVersion(""); }}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select programming language" />
+                </SelectTrigger>
+                <SelectContent>
+                  {programmingLanguages.map((lang) => (
+                    <SelectItem key={lang} value={lang}>{lang}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Framework/Platform */}
+            {language && (
+              <div>
+                <label className="text-sm font-medium mb-2 block">Framework/Platform</label>
+                <Select value={framework} onValueChange={(val) => { setFramework(val); setSourceVersion(""); setTargetVersion(""); }}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select framework/platform" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {frameworksByLanguage[language]?.map((fw) => (
+                      <SelectItem key={fw} value={fw}>{fw}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
+
+            {/* Current & Target Versions */}
+            {framework && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="text-sm font-medium mb-2 block">Current Framework Version</label>
+                  <Select value={sourceVersion} onValueChange={setSourceVersion}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Current version" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {versionsByFramework[framework]?.map((v) => (
+                        <SelectItem key={v} value={v}>{v}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium mb-2 block">Target Framework Version</label>
+                  <Select value={targetVersion} onValueChange={setTargetVersion}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Target version" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {versionsByFramework[framework]?.map((v) => (
+                        <SelectItem key={v} value={v}>{v}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+            )}
+
+            {/* Library Selection */}
+            {framework && (
+              <div>
+                <label className="text-sm font-medium mb-2 block">
+                  Select Libraries/Dependencies (Optional)
+                </label>
+                <p className="text-xs text-muted-foreground mb-3">
+                  Choose the libraries you're currently using to get more accurate migration analysis
+                </p>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-2 max-h-40 overflow-y-auto border rounded-md p-3">
+                  {librariesByFramework[framework]?.map((library) => (
+                    <label
+                      key={library}
+                      className="flex items-center space-x-2 cursor-pointer hover:bg-muted/50 p-2 rounded"
+                    >
+                      <input
+                        type="checkbox"
+                        checked={selectedLibraries.includes(library)}
+                        onChange={() => handleLibraryToggle(library)}
+                        className="rounded"
+                      />
+                      <span className="text-sm">{library}</span>
+                    </label>
+                  ))}
+                </div>
+                {selectedLibraries.length > 0 && (
+                  <div className="mt-2">
+                    <p className="text-xs text-muted-foreground">
+                      Selected: {selectedLibraries.join(", ")}
+                    </p>
+                  </div>
+                )}
+              </div>
+            )}
+          </>
+        )}
+
+        {/* Framework Migrate Flow */}
+        {category === "framework-migrate" && (
+          <>
+             {/* Source Language */}
+             <div>
+              <label className="text-sm font-medium mb-2 block">Source Language</label>
+              <Select value={sourceLanguage} onValueChange={(val) => { setSourceLanguage(val); setSourceLanguageVersion(""); }}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select source language" />
+                </SelectTrigger>
+                <SelectContent>
+                  {programmingLanguages.map((lang) => (
+                    <SelectItem key={lang} value={lang}>{lang}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Target Language */}
+            <div>
+              <label className="text-sm font-medium mb-2 block">Target Language</label>
+              <Select value={targetLanguage} onValueChange={(val) => { setTargetLanguage(val); setTargetLanguageVersion(""); }}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select target language" />
+                </SelectTrigger>
+                <SelectContent>
+                  {programmingLanguages.filter(lang => lang !== sourceLanguage).map((lang) => (
+                    <SelectItem key={lang} value={lang}>{lang}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Source Framework */}
+            {sourceLanguage && (
+              <div>
+                <label className="text-sm font-medium mb-2 block">Source Framework/Platform</label>
+                <Select value={sourceFramework} onValueChange={(val) => { setSourceFramework(val); setTargetFramework(""); setSourceFrameworkVersion(""); }}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Framework currently in use" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {frameworksByLanguage[sourceLanguage]?.map((fw) => (
+                      <SelectItem key={fw} value={fw}>{fw}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
+
+            {/* Target Framework */}
+            {targetLanguage && (
+              <div>
+                <label className="text-sm font-medium mb-2 block">Target Framework/Platform</label>
+                <Select value={targetFramework} onValueChange={(val) => { setTargetFramework(val); setTargetFrameworkVersion(""); }}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Framework to migrate to" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {frameworksByLanguage[targetLanguage]?.filter(fw => fw !== sourceLanguage).map((fw) => (
+                      <SelectItem key={fw} value={fw}>{fw}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
+
+            {/* Source Version */}
+            {sourceFramework && (
+              <div>
+                <label className="text-sm font-medium mb-2 block">Source Version (Optional but recommended)</label>
+                <Select value={sourceFrameworkVersion} onValueChange={setSourceFrameworkVersion}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Current version" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {versionsByFramework[sourceFramework]?.map((v) => (
+                      <SelectItem key={v} value={v}>{v}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
+
+            {/* Target Version */}
+            {targetFramework && (
+              <div>
+                <label className="text-sm font-medium mb-2 block">Target Version (Optional)</label>
+                <Select value={targetFrameworkVersion} onValueChange={setTargetFrameworkVersion}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Target version" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {versionsByFramework[targetFramework]?.map((v) => (
+                      <SelectItem key={v} value={v}>{v}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
+          </>
+        )}
+
+        {/* Language Migration Flow */}
+        {category === "language" && (
+          <>
+            {/* Source Language */}
+            <div>
+              <label className="text-sm font-medium mb-2 block">Source Language</label>
+              <Select value={sourceLanguage} onValueChange={(val) => { setSourceLanguage(val); setSourceLanguageVersion(""); }}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select source language" />
+                </SelectTrigger>
+                <SelectContent>
+                  {programmingLanguages.map((lang) => (
+                    <SelectItem key={lang} value={lang}>{lang}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Target Language */}
+            <div>
+              <label className="text-sm font-medium mb-2 block">Target Language</label>
+              <Select value={targetLanguage} onValueChange={(val) => { setTargetLanguage(val); setTargetLanguageVersion(""); }}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select target language" />
+                </SelectTrigger>
+                <SelectContent>
+                  {programmingLanguages.filter(lang => lang !== sourceLanguage).map((lang) => (
+                    <SelectItem key={lang} value={lang}>{lang}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Source Language Version */}
+            {sourceLanguage && (
+              <div>
+                <label className="text-sm font-medium mb-2 block">Current Version of Source Language</label>
+                <Select value={sourceLanguageVersion} onValueChange={setSourceLanguageVersion}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Source language version" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {languageVersionOptions(sourceLanguage).map((v) => (
+                      <SelectItem key={v} value={v}>{v}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
+
+            {/* Target Language Version */}
+            {targetLanguage && (
+              <div>
+                <label className="text-sm font-medium mb-2 block">Target Version of Target Language</label>
+                <Select value={targetLanguageVersion} onValueChange={setTargetLanguageVersion}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Target language version" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {languageVersionOptions(targetLanguage).map((v) => (
+                      <SelectItem key={v} value={v}>{v}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
+          </>
+        )}
+
+        {/* Library Migration Flow */}
+        {category === "library-migration" && (
+          <>
+            {/* Programming Language */}
+            <div>
+              <label className="text-sm font-medium mb-2 block">Programming Language</label>
+              <Select value={language} onValueChange={(val) => { setLanguage(val); setSourceLibrary(""); setTargetLibrary(""); }}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select programming language" />
+                </SelectTrigger>
+                <SelectContent>
+                  {programmingLanguages.map((lang) => (
+                    <SelectItem key={lang} value={lang}>{lang}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Source Library */}
+            {language && (
+              <div>
+                <label className="text-sm font-medium mb-2 block">Source Library</label>
+                <Select value={sourceLibrary} onValueChange={(val) => { setSourceLibrary(val); setSourceLibraryVersion(""); }}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select source library" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {allLibraries.map((lib) => (
+                      <SelectItem key={lib} value={lib}>{lib}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
+
+            {/* Target Library */}
+            {sourceLibrary && (
+              <div>
+                <label className="text-sm font-medium mb-2 block">Target Library or Native Implementation</label>
+                <Select value={targetLibrary} onValueChange={(val) => { setTargetLibrary(val); setTargetLibraryVersion(""); }}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select target library" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="native">Native Implementation</SelectItem>
+                    {allLibraries.filter(lib => lib !== sourceLibrary).map((lib) => (
+                      <SelectItem key={lib} value={lib}>{lib}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
+
+            {/* Source Library Version */}
+            {sourceLibrary && (
+              <div>
+                <label className="text-sm font-medium mb-2 block">Current Library Version</label>
+                <Select value={sourceLibraryVersion} onValueChange={setSourceLibraryVersion}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Source library version" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {versionsByLibrary[sourceLibrary]?.map((v) => (
+                      <SelectItem key={v} value={v}>{v}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
+
+            {/* Target Library Version */}
+            {targetLibrary && targetLibrary !== "native" && (
+              <div>
+                <label className="text-sm font-medium mb-2 block">Target Library Version</label>
+                <Select value={targetLibraryVersion} onValueChange={setTargetLibraryVersion}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Target library version" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {versionsByLibrary[targetLibrary]?.map((v) => (
+                      <SelectItem key={v} value={v}>{v}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
+          </>
+        )}
+
+        {/* Package Manager Migration Flow */}
+        {category === "package-manager" && (
+          <>
+            {/* Programming Language */}
+            <div>
+              <label className="text-sm font-medium mb-2 block">Programming Language</label>
+              <Select value={language} onValueChange={(val) => { setLanguage(val); setSourcePackageManager(""); setTargetPackageManager(""); }}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select programming language" />
+                </SelectTrigger>
+                <SelectContent>
+                  {programmingLanguages.map((lang) => (
+                    <SelectItem key={lang} value={lang}>{lang}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Source Package Manager */}
+            {language && (
+              <div>
+                <label className="text-sm font-medium mb-2 block">Source Package Manager</label>
+                <Select value={sourcePackageManager} onValueChange={(val) => { setSourcePackageManager(val); setTargetPackageManager(""); }}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select source package manager" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {packageManagersByLanguage[language]?.map((pm) => (
+                      <SelectItem key={pm} value={pm}>{pm}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
+
+            {/* Target Package Manager */}
+            {sourcePackageManager && (
+              <div>
+                <label className="text-sm font-medium mb-2 block">Target Package Manager</label>
+                <Select value={targetPackageManager} onValueChange={setTargetPackageManager}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select target package manager" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {packageManagersByLanguage[language]?.filter(pm => pm !== sourcePackageManager).map((pm) => (
+                      <SelectItem key={pm} value={pm}>{pm}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
+
+            {/* Project Type */}
+            {targetPackageManager && (
+              <div>
+                <label className="text-sm font-medium mb-2 block">Project Type (Optional)</label>
+                <Select value={projectType} onValueChange={setProjectType}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select project type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {projectTypes.map((type) => (
+                      <SelectItem key={type} value={type}>{type}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
+          </>
+        )}
+
+        {/* Upload dependency file */}
+        <div className="border-2 border-dashed border-border rounded-lg p-6 text-center hover:border-primary transition-colors cursor-pointer"  onClick={handleDivClick}>
+          <Upload className="w-8 h-8 mx-auto mb-2 text-muted-foreground" />
+          <p className="text-sm font-medium mb-1"> {fileLabel}</p>
+          <p className="text-xs text-muted-foreground">
+            {file ? `Uploaded: ${file.name}` : "We'll analyze your dependencies for compatibility"}
+          </p>
+          <input
+        type="file"
+        className="hidden"
+        accept={fileAccept}
+        ref={inputRef}
+        onChange={handleFileChange}
+      />
+        </div>
+
+        {/* Analyze Button */}
         <Button
           onClick={handleAnalyze}
-          disabled={!source || !target}
+          disabled={
+            category === "framework-version" ? !(language && framework && sourceVersion && targetVersion) :
+            category === "framework-migrate" ? !(sourceLanguage && targetLanguage && sourceFrameworkVersion && targetFrameworkVersion && sourceFramework && targetFramework) :
+            category === "language" ? !(sourceLanguage && targetLanguage && sourceLanguageVersion && targetLanguageVersion) :
+            category === "library-migration" ? !(language && sourceLibrary && targetLibrary && sourceLibraryVersion && (targetLibrary === "native" || targetLibraryVersion)) :
+            category === "package-manager" ? !(language && sourcePackageManager && targetPackageManager) :
+            true
+          }
           className="w-full"
           size="lg"
         >
