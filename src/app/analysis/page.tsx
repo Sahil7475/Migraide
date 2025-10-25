@@ -10,9 +10,9 @@ import { MigrationRoadmap } from "@/components/analysis/MigrationRoadmap";
 import { Documentation } from "@/components/analysis/Documentation";
 import { react17to18Migration } from "@/data/react17to18";
 import { ArrowLeft, Download } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Suspense,useEffect, useState } from "react";
 
-export default function AnalysisPage() {
+function AnalysisContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [migrationData, setMigrationData] = useState<any>(null);
@@ -228,5 +228,13 @@ export default function AnalysisPage() {
         </Tabs>
       </div>
     </div>
+  );
+}
+
+export default function AnalysisPage() {
+  return (
+    <Suspense fallback={<div className="p-8 text-center">Loading analysis...</div>}>
+      <AnalysisContent />
+    </Suspense>
   );
 }
