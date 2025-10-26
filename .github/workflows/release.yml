@@ -56,8 +56,14 @@ jobs:
       - name: Upload build output
         uses: actions/upload-artifact@v4
         with:
-          name: site
-          path: .next
+           name: site
+           path: |
+            .next
+            package.json
+            package-lock.json
+            yarn.lock
+            public
+            node_modules
 
   deploy:
     runs-on: ubuntu-latest
@@ -69,7 +75,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: site
-          path: .next
+          path: .
       - name: Install Netlify CLI
         run: npm install -g netlify-cli
       - name: Deploy to Netlify
