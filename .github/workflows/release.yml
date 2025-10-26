@@ -9,8 +9,6 @@ permissions:
   contents: read
   id-token: write
 
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
 concurrency:
   group: "netlify-production"
   cancel-in-progress: false
@@ -55,8 +53,11 @@ jobs:
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
       - name: Build with Next.js
         run: ${{ steps.detect-package-manager.outputs.runner }} next build
-      - name: Install Netlify CLI
-        run: npm install -g netlify-cli
+      - name: Upload build output
+        uses: actions/upload-artifact@v4
+        with:
+          name: site
+          path: ./out
 
   deploy:
     runs-on: ubuntu-latest
@@ -64,9 +65,14 @@ jobs:
     environment:
       name: production
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Download build output
+        uses: actions/download-artifact@v4
+        with:
+          name: site
+          path: ./out
+      - name: Install Netlify CLI
+        run: npm install -g netlify-cli
       - name: Deploy to Netlify
-        run: netlify deploy --dir=.next --prod --site ${{ secrets.NETLIFY_SITE_ID }}
+        run: netlify deploy --dir=out --prod --site ${{ secrets.NETLIFY_SITE_ID }}
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
