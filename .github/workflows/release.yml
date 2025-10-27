@@ -53,17 +53,6 @@ jobs:
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
       - name: Build with Next.js
         run: ${{ steps.detect-package-manager.outputs.runner }} next build
-      - name: Upload build output
-        uses: actions/upload-artifact@v4
-        with:
-           name: site
-           path: |
-            .next
-            package.json
-            package-lock.json
-            yarn.lock
-            public
-            node_modules
 
   deploy:
     runs-on: ubuntu-latest
@@ -71,14 +60,5 @@ jobs:
     environment:
       name: production
     steps:
-      - name: Download build output
-        uses: actions/download-artifact@v4
-        with:
-          name: site
-          path: .
-      - name: Install Netlify CLI
-        run: npm install -g netlify-cli
-      - name: Deploy to Netlify
-        run: netlify deploy --dir=.next --prod --site ${{ secrets.NETLIFY_SITE_ID }}
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+      - name: Trigger Netlify build hook
+        run: curl -X POST -d {} ${{ secrets.NETLIFY_BUILD_HOOK_URL }}
