@@ -16,6 +16,8 @@ function AnalysisContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [migrationData, setMigrationData] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
+  const [breakingChanges, setBreakingChanges] = useState<any[]>([]);
 
   useEffect(() => {
     const category = searchParams.get('category');
@@ -27,26 +29,44 @@ function AnalysisContent() {
 
     switch (category) {
       case "framework-version":
-        const language = searchParams.get('language');
-        const framework = searchParams.get('framework');
-        const sourceVersion = searchParams.get('sourceVersion');
-        const targetVersion = searchParams.get('targetVersion');
-        const libraries = searchParams.get('libraries');
-        
+        const language = searchParams.get("language");
+        const framework = searchParams.get("framework");
+        const sourceVersion = searchParams.get("sourceVersion");
+        const targetVersion = searchParams.get("targetVersion");
+        const libraries = searchParams.get("libraries");
+
         if (!language || !framework || !sourceVersion || !targetVersion) {
           router.push("/");
           return;
         }
-        
+
         setMigrationData({
           category,
           language,
           framework,
           sourceVersion,
           targetVersion,
-          libraries: libraries ? libraries.split(',') : []
+          libraries: libraries ? libraries.split(",") : [],
         });
-        break;
+
+        // ✅ Fetch breaking changes dynamically from your API
+            (async () => {
+              setLoading(true);
+              try {
+                const res = await fetch(
+                  `/api/breakdown-changes?from=${sourceVersion}&to=${targetVersion}`
+                );
+                console.log("res",res);
+                const data = await res.json();
+                setBreakingChanges(data.data || []);
+              } catch (err) {
+                console.error("Failed to fetch breaking changes:", err);
+              } finally {
+                setLoading(false);
+              }
+            })();
+            break;
+          
         
       case "framework-migrate":
         const lang = searchParams.get('language');
@@ -207,7 +227,13 @@ function AnalysisContent() {
           </TabsList>
 
           <TabsContent value="breaking-changes">
-            <BreakingChanges changes={analysisData.breakingChanges} />
+            {loading ? (
+              <div className="p-4 text-center text-muted-foreground">
+                Fetching breaking changes...
+              </div>
+            ) : (
+              <BreakingChanges changes={breakingChanges} />
+            )}
           </TabsContent>
 
           <TabsContent value="pros-cons">

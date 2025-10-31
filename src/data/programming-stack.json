@@ -1,0 +1,671 @@
+{
+  "languages": [
+    {
+      "id": 1,
+      "name": "JavaScript/TypeScript",
+      "versions": ["ES5", "ES6", "ES2017", "ES2018", "ES2019", "ES2020", "ES2021", "ES2022", "ES2023", "ES2024"],
+      "typeScriptVersions": ["4.0", "4.5", "4.9", "5.0", "5.1", "5.2", "5.3", "5.4", "5.5"],
+      "packageManagers": [
+        { "name": "npm", "versions": ["8.x", "9.x", "10.x"] },
+        { "name": "yarn", "versions": ["1.x", "2.x", "3.x", "4.x"] },
+        { "name": "pnpm", "versions": ["7.x", "8.x", "9.x"] },
+        { "name": "bun", "versions": ["1.0", "1.1"] }
+      ],
+      "dependencyFile": { "file": "package.json", "desc": "for Node.js or frontend frameworks" },
+      "frameworks": [
+        {
+          "name": "React",
+          "versions": ["16.x", "17.x", "18.x"],
+          "type": "Frontend Library",
+          "libraries": [
+            { "name": "React Router", "versions": ["5.x", "6.x"] },
+            { "name": "Redux", "versions": ["4.x", "5.x"] },
+            { "name": "MobX", "versions": ["5.x", "6.x"] },
+            { "name": "React Query", "versions": ["3.x", "4.x", "5.x"] },
+            { "name": "Apollo Client", "versions": ["2.x", "3.x"] },
+            { "name": "Material-UI", "versions": ["4.x", "5.x"] },
+            { "name": "Ant Design", "versions": ["4.x", "5.x"] },
+            { "name": "Chakra UI", "versions": ["1.x", "2.x"] },
+            { "name": "Styled Components", "versions": ["5.x", "6.x"] },
+            { "name": "Emotion", "versions": ["10.x", "11.x"] },
+            { "name": "React Hook Form", "versions": ["6.x", "7.x"] },
+            { "name": "Formik", "versions": ["2.x", "3.x"] },
+            { "name": "React Testing Library", "versions": ["12.x", "13.x", "14.x"] },
+            { "name": "Jest", "versions": ["26.x", "27.x", "28.x", "29.x"] },
+            { "name": "Cypress", "versions": ["9.x", "10.x", "11.x", "12.x", "13.x"] },
+            { "name": "Zustand", "versions": ["3.x", "4.x"] },
+            { "name": "Jotai", "versions": ["1.x", "2.x"] },
+            { "name": "Recoil", "versions": ["0.7.x"] }
+          ]
+        },
+        {
+          "name": "Angular",
+          "versions": ["12", "13", "14", "15", "16", "17", "18"],
+          "type": "Frontend Framework",
+          "libraries": [
+            { "name": "Angular Router", "versions": ["13.x", "14.x", "15.x", "16.x", "17.x", "18.x"] },
+            { "name": "NgRx", "versions": ["12.x", "13.x", "14.x", "15.x", "16.x", "17.x", "18.x"] },
+            { "name": "RxJS", "versions": ["6.x", "7.x"] },
+            { "name": "Angular Material", "versions": ["13.x", "14.x", "15.x", "16.x", "17.x", "18.x"] },
+            { "name": "PrimeNG", "versions": ["13.x", "14.x", "15.x", "16.x", "17.x"] },
+            { "name": "Angular Forms", "versions": ["13.x", "14.x", "15.x", "16.x", "17.x", "18.x"] },
+            { "name": "Karma", "versions": ["6.x"] },
+            { "name": "Protractor", "versions": ["7.x"] },
+            { "name": "Jasmine", "versions": ["3.x", "4.x", "5.x"] }
+          ]
+        },
+        {
+          "name": "Vue",
+          "versions": ["2.6", "2.7", "3.0", "3.1", "3.2", "3.3", "3.4"],
+          "type": "Frontend Framework",
+          "libraries": [
+            { "name": "Vue Router", "versions": ["3.x", "4.x"] },
+            { "name": "Vuex", "versions": ["3.x", "4.x"] },
+            { "name": "Pinia", "versions": ["1.x", "2.x"] },
+            { "name": "Vuetify", "versions": ["2.x", "3.x"] },
+            { "name": "Quasar", "versions": ["1.x", "2.x"] },
+            { "name": "Element Plus", "versions": ["1.x", "2.x"] },
+            { "name": "Vue Test Utils", "versions": ["1.x", "2.x"] },
+            { "name": "Vitest", "versions": ["0.x", "1.x"] },
+            { "name": "Cypress", "versions": ["9.x", "10.x", "11.x", "12.x", "13.x"] },
+            { "name": "Nuxt", "versions": ["2.x", "3.x"] }
+          ]
+        },
+        {
+          "name": "Next.js",
+          "versions": ["12", "13", "14", "15"],
+          "type": "Full-stack Framework",
+          "libraries": [
+            { "name": "Next.js Router", "versions": ["12.x", "13.x", "14.x", "15.x"] },
+            { "name": "Next.js API Routes", "versions": ["12.x", "13.x", "14.x", "15.x"] },
+            { "name": "Next.js Image", "versions": ["12.x", "13.x", "14.x", "15.x"] },
+            { "name": "Next.js Font", "versions": ["13.x", "14.x", "15.x"] },
+            { "name": "SWR", "versions": ["1.x", "2.x"] },
+            { "name": "React Query", "versions": ["3.x", "4.x", "5.x"] },
+            { "name": "Tailwind CSS", "versions": ["2.x", "3.x"] },
+            { "name": "Styled Components", "versions": ["5.x", "6.x"] },
+            { "name": "Sass", "versions": ["1.x"] }
+          ]
+        },
+        {
+          "name": "Express.js",
+          "versions": ["4.x", "5.x"],
+          "type": "Backend Framework",
+          "libraries": [
+            { "name": "Body Parser", "versions": ["1.x"] },
+            { "name": "CORS", "versions": ["2.x"] },
+            { "name": "Helmet", "versions": ["6.x", "7.x"] },
+            { "name": "Morgan", "versions": ["1.x"] },
+            { "name": "Passport", "versions": ["0.6.x", "0.7.x"] },
+            { "name": "Multer", "versions": ["1.x"] },
+            { "name": "Mongoose", "versions": ["6.x", "7.x", "8.x"] },
+            { "name": "Sequelize", "versions": ["6.x"] }
+          ]
+        },
+        {
+          "name": "Node.js",
+          "versions": ["14.x", "16.x", "18.x", "20.x", "22.x"],
+          "type": "Runtime Environment",
+          "libraries": [
+            { "name": "Nodemon", "versions": ["2.x", "3.x"] },
+            { "name": "Dotenv", "versions": ["16.x"] },
+            { "name": "Winston", "versions": ["3.x"] },
+            { "name": "PM2", "versions": ["5.x"] }
+          ]
+        }
+      ],
+      "commonLibraries": [
+        { "name": "Lodash", "versions": ["4.x", "5.x"] },
+        { "name": "Moment.js", "versions": ["2.x"] },
+        { "name": "Day.js", "versions": ["1.x"] },
+        { "name": "Axios", "versions": ["0.x", "1.x"] },
+        { "name": "Socket.io", "versions": ["2.x", "3.x", "4.x"] },
+        { "name": "Webpack", "versions": ["4.x", "5.x"] },
+        { "name": "Babel", "versions": ["7.x"] },
+        { "name": "ESLint", "versions": ["7.x", "8.x", "9.x"] },
+        { "name": "Prettier", "versions": ["2.x", "3.x"] },
+        { "name": "Date-fns", "versions": ["2.x", "3.x"] },
+        { "name": "Ramda", "versions": ["0.29.x"] }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Python",
+      "versions": ["2.7", "3.6", "3.7", "3.8", "3.9", "3.10", "3.11", "3.12", "3.13"],
+      "packageManagers": [
+        { "name": "pip", "versions": ["20.x", "21.x", "22.x", "23.x", "24.x"] },
+        { "name": "conda", "versions": ["4.x", "23.x", "24.x"] },
+        { "name": "poetry", "versions": ["1.1", "1.2", "1.3", "1.4", "1.5", "1.6", "1.7", "1.8"] },
+        { "name": "pipenv", "versions": ["2022.x", "2023.x"] }
+      ],
+      "dependencyFile": { "file": "requirements.txt", "desc": "for Python dependencies" },
+      "frameworks": [
+        {
+          "name": "Django",
+          "versions": ["3.2", "4.0", "4.1", "4.2", "5.0", "5.1"],
+          "type": "Full-stack Web Framework",
+          "libraries": [
+            { "name": "Django REST Framework", "versions": ["3.12", "3.13", "3.14", "3.15"] },
+            { "name": "Celery", "versions": ["5.2", "5.3", "5.4"] },
+            { "name": "Redis", "versions": ["4.x", "5.x"] },
+            { "name": "PostgreSQL", "versions": ["12.x", "13.x", "14.x", "15.x", "16.x"] },
+            { "name": "MySQL", "versions": ["8.0", "8.1", "8.2"] },
+            { "name": "Django Channels", "versions": ["3.x", "4.x"] },
+            { "name": "Django Debug Toolbar", "versions": ["3.x", "4.x"] },
+            { "name": "Django Extensions", "versions": ["3.x"] },
+            { "name": "Pytest", "versions": ["7.x", "8.x"] },
+            { "name": "Django Allauth", "versions": ["0.54", "0.57"] }
+          ]
+        },
+        {
+          "name": "Flask",
+          "versions": ["2.0", "2.1", "2.2", "2.3", "3.0"],
+          "type": "Micro Web Framework",
+          "libraries": [
+            { "name": "Flask-SQLAlchemy", "versions": ["2.x", "3.x"] },
+            { "name": "Flask-Migrate", "versions": ["3.x", "4.x"] },
+            { "name": "Flask-Login", "versions": ["0.6.x"] },
+            { "name": "Flask-WTF", "versions": ["1.0", "1.1", "1.2"] },
+            { "name": "Flask-Mail", "versions": ["0.9.x"] },
+            { "name": "Celery", "versions": ["5.2", "5.3", "5.4"] },
+            { "name": "Redis", "versions": ["4.x", "5.x"] },
+            { "name": "Gunicorn", "versions": ["20.x", "21.x", "22.x"] },
+            { "name": "Pytest", "versions": ["7.x", "8.x"] },
+            { "name": "Flask-CORS", "versions": ["3.x", "4.x"] }
+          ]
+        },
+        {
+          "name": "FastAPI",
+          "versions": ["0.95", "0.100", "0.104", "0.108", "0.110", "0.112"],
+          "type": "Modern API Framework",
+          "libraries": [
+            { "name": "Pydantic", "versions": ["1.x", "2.x"] },
+            { "name": "SQLAlchemy", "versions": ["1.4", "2.0"] },
+            { "name": "Uvicorn", "versions": ["0.20", "0.23", "0.27", "0.30"] },
+            { "name": "Starlette", "versions": ["0.27", "0.31", "0.37"] },
+            { "name": "Alembic", "versions": ["1.x"] },
+            { "name": "Pytest", "versions": ["7.x", "8.x"] }
+          ]
+        },
+        {
+          "name": "Pyramid",
+          "versions": ["1.10", "2.0"],
+          "type": "Web Framework",
+          "libraries": [
+            { "name": "SQLAlchemy", "versions": ["1.4", "2.0"] },
+            { "name": "Waitress", "versions": ["2.x"] }
+          ]
+        },
+        {
+          "name": "Tornado",
+          "versions": ["6.0", "6.1", "6.2", "6.3", "6.4"],
+          "type": "Async Web Framework",
+          "libraries": []
+        }
+      ],
+      "commonLibraries": [
+        { "name": "NumPy", "versions": ["1.21", "1.22", "1.23", "1.24", "1.25", "1.26", "2.0"] },
+        { "name": "Pandas", "versions": ["1.3", "1.4", "1.5", "2.0", "2.1", "2.2"] },
+        { "name": "Requests", "versions": ["2.27", "2.28", "2.31", "2.32"] },
+        { "name": "Beautiful Soup", "versions": ["4.10", "4.11", "4.12"] },
+        { "name": "Matplotlib", "versions": ["3.5", "3.6", "3.7", "3.8", "3.9"] },
+        { "name": "Scikit-learn", "versions": ["1.0", "1.1", "1.2", "1.3", "1.4", "1.5"] },
+        { "name": "TensorFlow", "versions": ["2.10", "2.11", "2.12", "2.13", "2.14", "2.15", "2.16"] },
+        { "name": "PyTorch", "versions": ["1.12", "1.13", "2.0", "2.1", "2.2", "2.3"] },
+        { "name": "Scrapy", "versions": ["2.6", "2.7", "2.8", "2.9", "2.11"] },
+        { "name": "Pillow", "versions": ["9.x", "10.x"] }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Java",
+      "versions": ["8", "11", "17", "21"],
+      "packageManagers": [
+        { "name": "Maven", "versions": ["3.6", "3.8", "3.9"] },
+        { "name": "Gradle", "versions": ["7.x", "8.x"] },
+        { "name": "SBT", "versions": ["1.x"] }
+      ],
+      "dependencyFile": { "file": "pom.xml", "desc": "for Maven-based Java projects" },
+      "frameworks": [
+        {
+          "name": "Spring Boot",
+          "versions": ["2.6", "2.7", "3.0", "3.1", "3.2", "3.3"],
+          "type": "Enterprise Framework",
+          "libraries": [
+            { "name": "Spring Data JPA", "versions": ["2.7", "3.0", "3.1", "3.2", "3.3"] },
+            { "name": "Spring Security", "versions": ["5.7", "6.0", "6.1", "6.2", "6.3"] },
+            { "name": "Spring Cloud", "versions": ["2021.x", "2022.x", "2023.x"] },
+            { "name": "Hibernate", "versions": ["5.6", "6.0", "6.1", "6.2", "6.4", "6.5"] },
+            { "name": "Lombok", "versions": ["1.18.x"] },
+            { "name": "MapStruct", "versions": ["1.5.x"] }
+          ]
+        },
+        {
+          "name": "Jakarta EE",
+          "versions": ["8", "9", "10"],
+          "type": "Enterprise Platform",
+          "libraries": [
+            { "name": "Hibernate", "versions": ["5.6", "6.0", "6.1", "6.2"] },
+            { "name": "EclipseLink", "versions": ["3.0", "4.0"] }
+          ]
+        },
+        {
+          "name": "Struts",
+          "versions": ["2.5", "6.0"],
+          "type": "Web Framework",
+          "libraries": []
+        },
+        {
+          "name": "Play Framework",
+          "versions": ["2.8", "2.9", "3.0"],
+          "type": "Web Framework",
+          "libraries": []
+        },
+        {
+          "name": "Quarkus",
+          "versions": ["2.x", "3.x"],
+          "type": "Cloud-native Framework",
+          "libraries": [
+            { "name": "Quarkus REST", "versions": ["3.x"] },
+            { "name": "Quarkus Hibernate ORM", "versions": ["3.x"] }
+          ]
+        },
+        {
+          "name": "Micronaut",
+          "versions": ["3.x", "4.x"],
+          "type": "Microservices Framework",
+          "libraries": []
+        }
+      ],
+      "commonLibraries": [
+        { "name": "Apache Commons", "versions": ["3.12", "3.13", "3.14"] },
+        { "name": "Jackson", "versions": ["2.13", "2.14", "2.15", "2.16", "2.17"] },
+        { "name": "Log4j", "versions": ["2.17", "2.18", "2.19", "2.20", "2.21", "2.22", "2.23"] },
+        { "name": "SLF4J", "versions": ["1.7", "2.0"] },
+        { "name": "JUnit", "versions": ["4.13", "5.8", "5.9", "5.10"] },
+        { "name": "Mockito", "versions": ["4.x", "5.x"] },
+        { "name": "Guava", "versions": ["31.x", "32.x", "33.x"] }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "C#",
+      "versions": ["6.0", "7.0", "8.0", "9.0", "10.0", "11.0", "12.0"],
+      "packageManagers": [
+        { "name": "NuGet", "versions": ["5.x", "6.x"] },
+        { "name": "Paket", "versions": ["6.x", "7.x", "8.x"] }
+      ],
+      "dependencyFile": { "file": ".csproj", "desc": "for .NET or ASP.NET projects" },
+      "frameworks": [
+        {
+          "name": "ASP.NET Core",
+          "versions": ["3.1", "5.0", "6.0", "7.0", "8.0"],
+          "type": "Web Framework",
+          "libraries": [
+            { "name": "Entity Framework Core", "versions": ["3.1", "5.0", "6.0", "7.0", "8.0"] },
+            { "name": "AutoMapper", "versions": ["11.x", "12.x", "13.x"] },
+            { "name": "Serilog", "versions": ["2.x", "3.x", "4.x"] },
+            { "name": "Swagger", "versions": ["5.x", "6.x"] },
+            { "name": "MediatR", "versions": ["11.x", "12.x"] },
+            { "name": "FluentValidation", "versions": ["11.x"] },
+            { "name": "AutoFac", "versions": ["6.x", "7.x", "8.x"] },
+            { "name": "Hangfire", "versions": ["1.7", "1.8"] },
+            { "name": "SignalR", "versions": ["6.0", "7.0", "8.0"] },
+            { "name": "Identity", "versions": ["6.0", "7.0", "8.0"] }
+          ]
+        },
+        {
+          "name": "Blazor",
+          "versions": ["3.1", "5.0", "6.0", "7.0", "8.0"],
+          "type": "Web UI Framework",
+          "libraries": [
+            { "name": "Blazored", "versions": ["9.x", "10.x"] },
+            { "name": "MudBlazor", "versions": ["6.x", "7.x"] }
+          ]
+        },
+        {
+          "name": "WPF",
+          "versions": [".NET Core 3.1", ".NET 5", ".NET 6", ".NET 7", ".NET 8"],
+          "type": "Desktop Framework",
+          "libraries": []
+        },
+        {
+          "name": "WinForms",
+          "versions": [".NET Core 3.1", ".NET 5", ".NET 6", ".NET 7", ".NET 8"],
+          "type": "Desktop Framework",
+          "libraries": []
+        },
+        {
+          "name": ".NET MAUI",
+          "versions": [".NET 6", ".NET 7", ".NET 8"],
+          "type": "Cross-platform Framework",
+          "libraries": [
+            { "name": "CommunityToolkit.Maui", "versions": ["5.x", "6.x", "7.x", "8.x", "9.x"] }
+          ]
+        }
+      ],
+      "commonLibraries": [
+        { "name": "Newtonsoft.Json", "versions": ["12.x", "13.x"] },
+        { "name": "Dapper", "versions": ["2.0", "2.1"] },
+        { "name": "Polly", "versions": ["7.x", "8.x"] },
+        { "name": "xUnit", "versions": ["2.4", "2.5", "2.6"] },
+        { "name": "NUnit", "versions": ["3.13", "3.14", "4.0"] }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "PHP",
+      "versions": ["7.4", "8.0", "8.1", "8.2", "8.3", "8.4"],
+      "packageManagers": [
+        { "name": "Composer", "versions": ["2.0", "2.1", "2.2", "2.3", "2.4", "2.5", "2.6", "2.7"] },
+        { "name": "PEAR", "versions": ["1.x"] }
+      ],
+      "dependencyFile": { "file": "composer.json", "desc": "for PHP/Laravel projects" },
+      "frameworks": [
+        {
+          "name": "Laravel",
+          "versions": ["8.x", "9.x", "10.x", "11.x"],
+          "type": "Full-stack Framework",
+          "libraries": [
+            { "name": "Eloquent ORM", "versions": ["8.x", "9.x", "10.x", "11.x"] },
+            { "name": "Laravel Sanctum", "versions": ["2.x", "3.x", "4.x"] },
+            { "name": "Laravel Livewire", "versions": ["2.x", "3.x"] },
+            { "name": "Laravel Breeze", "versions": ["1.x", "2.x"] },
+            { "name": "Laravel Jetstream", "versions": ["2.x", "3.x", "4.x", "5.x"] },
+            { "name": "Inertia.js", "versions": ["0.11", "1.x"] }
+          ]
+        },
+        {
+          "name": "Symfony",
+          "versions": ["5.4", "6.0", "6.1", "6.2", "6.3", "6.4", "7.0", "7.1"],
+          "type": "Full-stack Framework",
+          "libraries": [
+            { "name": "Doctrine ORM", "versions": ["2.x", "3.x"] },
+            { "name": "Twig", "versions": ["3.x"] },
+            { "name": "Symfony Console", "versions": ["5.4", "6.x", "7.x"] }
+          ]
+        },
+        {
+          "name": "CodeIgniter",
+          "versions": ["3.x", "4.x"],
+          "type": "Lightweight Framework",
+          "libraries": []
+        },
+        {
+          "name": "CakePHP",
+          "versions": ["4.x", "5.x"],
+          "type": "Full-stack Framework",
+          "libraries": []
+        }
+      ],
+      "commonLibraries": [
+        { "name": "Guzzle", "versions": ["7.x"] },
+        { "name": "PHPUnit", "versions": ["9.x", "10.x", "11.x"] },
+        { "name": "Monolog", "versions": ["2.x", "3.x"] },
+        { "name": "Carbon", "versions": ["2.x", "3.x"] },
+        { "name": "PHP-CS-Fixer", "versions": ["3.x"] },
+        { "name": "Pest", "versions": ["1.x", "2.x"] }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Go",
+      "versions": ["1.16", "1.17", "1.18", "1.19", "1.20", "1.21", "1.22", "1.23"],
+      "packageManagers": [
+        { "name": "Go Modules", "versions": ["1.16+"] },
+        { "name": "Dep", "versions": ["0.5.x"] },
+        { "name": "Glide", "versions": ["0.13.x"] }
+      ],
+      "dependencyFile": { "file": "go.mod", "desc": "for Go modules" },
+      "frameworks": [
+        {
+          "name": "Gin",
+          "versions": ["1.7", "1.8", "1.9", "1.10"],
+          "type": "Web Framework",
+          "libraries": [
+            { "name": "gin-contrib/cors", "versions": ["1.4", "1.5", "1.6", "1.7"] },
+            { "name": "gin-contrib/sessions", "versions": ["0.0.5"] }
+          ]
+        },
+        {
+          "name": "Echo",
+          "versions": ["4.9", "4.10", "4.11", "4.12"],
+          "type": "Web Framework",
+          "libraries": [
+            { "name": "echo-contrib/jaegertracing", "versions": ["4.12"] }
+          ]
+        },
+        {
+          "name": "Fiber",
+          "versions": ["2.40", "2.44", "2.48", "2.50", "2.52"],
+          "type": "Express-inspired Framework",
+          "libraries": [
+            { "name": "fiber/helmet", "versions": ["2.2.x"] }
+          ]
+        },
+        {
+          "name": "Beego",
+          "versions": ["2.0", "2.1", "2.2"],
+          "type": "MVC Framework",
+          "libraries": []
+        }
+      ],
+      "commonLibraries": [
+        { "name": "GORM", "versions": ["1.23", "1.24", "1.25"] },
+        { "name": "Viper", "versions": ["1.15", "1.16", "1.17", "1.18", "1.19"] },
+        { "name": "Cobra", "versions": ["1.6", "1.7", "1.8"] },
+        { "name": "Zap", "versions": ["1.24", "1.25", "1.26", "1.27"] },
+        { "name": "Testify", "versions": ["1.8", "1.9"] },
+        { "name": "go-redis", "versions": ["9.x"] }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "Ruby",
+      "versions": ["2.6", "2.7", "3.0", "3.1", "3.2", "3.3"],
+      "packageManagers": [
+        { "name": "Bundler", "versions": ["2.2", "2.3", "2.4", "2.5"] },
+        { "name": "Gem", "versions": ["3.x"] }
+      ],
+      "dependencyFile": { "file": "Gemfile", "desc": "for Ruby on Rails projects" },
+      "frameworks": [
+        {
+          "name": "Rails",
+          "versions": ["6.0", "6.1", "7.0", "7.1", "7.2"],
+          "type": "Full-stack Framework",
+          "libraries": [
+            { "name": "ActiveRecord", "versions": ["6.0", "6.1", "7.0", "7.1", "7.2"] },
+            { "name": "Devise", "versions": ["4.8", "4.9"] },
+            { "name": "Sidekiq", "versions": ["6.5", "7.0", "7.1", "7.2"] },
+            { "name": "Pundit", "versions": ["2.x"] },
+            { "name": "CanCanCan", "versions": ["3.x"] },
+            { "name": "Kaminari", "versions": ["1.2"] },
+            { "name": "CarrierWave", "versions": ["2.x", "3.x"] }
+          ]
+        },
+        {
+          "name": "Sinatra",
+          "versions": ["2.2", "3.0", "4.0"],
+          "type": "Lightweight Framework",
+          "libraries": [
+            { "name": "ActiveRecord", "versions": ["6.0", "6.1", "7.0", "7.1"] }
+          ]
+        },
+        {
+          "name": "Hanami",
+          "versions": ["1.3", "2.0", "2.1"],
+          "type": "Full-stack Framework",
+          "libraries": []
+        }
+      ],
+      "commonLibraries": [
+        { "name": "Puma", "versions": ["5.x", "6.x"] },
+        { "name": "RSpec", "versions": ["3.11", "3.12", "3.13"] },
+        { "name": "Nokogiri", "versions": ["1.13", "1.14", "1.15", "1.16"] },
+        { "name": "HTTParty", "versions": ["0.20", "0.21", "0.22"] },
+        { "name": "Capybara", "versions": ["3.x"] },
+        { "name": "FactoryBot", "versions": ["6.x"] }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "Rust",
+      "versions": ["1.60", "1.65", "1.70", "1.75", "1.76", "1.77", "1.78", "1.79", "1.80"],
+      "packageManagers": [
+        { "name": "Cargo", "versions": ["1.60+"] }
+      ],
+      "dependencyFile": { "file": "Cargo.toml", "desc": "for Rust packages" },
+      "frameworks": [
+        {
+          "name": "Actix",
+          "versions": ["3.x", "4.x"],
+          "type": "Web Framework",
+          "libraries": [
+            { "name": "actix-web-actors", "versions": ["4.x"] },
+            { "name": "actix-cors", "versions": ["0.6", "0.7"] },
+            { "name": "actix-files", "versions": ["0.6"] }
+          ]
+        },
+        {
+          "name": "Rocket",
+          "versions": ["0.4", "0.5"],
+          "type": "Web Framework",
+          "libraries": [
+            { "name": "rocket_db_pools", "versions": ["0.1"] },
+            { "name": "rocket_dyn_templates", "versions": ["0.1"] }
+          ]
+        },
+        {
+          "name": "Warp",
+          "versions": ["0.3"],
+          "type": "Web Framework",
+          "libraries": []
+        },
+        {
+          "name": "Axum",
+          "versions": ["0.6", "0.7"],
+          "type": "Web Framework",
+          "libraries": [
+            { "name": "tower", "versions": ["0.4"] },
+            { "name": "tower-http", "versions": ["0.4", "0.5"] }
+          ]
+        }
+      ],
+      "commonLibraries": [
+        { "name": "Serde", "versions": ["1.0"] },
+        { "name": "Tokio", "versions": ["1.x"] },
+        { "name": "SQLx", "versions": ["0.6", "0.7", "0.8"] },
+        { "name": "Diesel", "versions": ["2.0", "2.1", "2.2"] },
+        { "name": "Reqwest", "versions": ["0.11", "0.12"] },
+        { "name": "Clap", "versions": ["4.x"] },
+        { "name": "Anyhow", "versions": ["1.x"] },
+        { "name": "Thiserror", "versions": ["1.x"] }
+      ]
+    },
+    {
+      "id": 9,
+      "name": "Swift",
+      "versions": ["5.0", "5.1", "5.2", "5.3", "5.4", "5.5", "5.6", "5.7", "5.8", "5.9", "5.10"],
+      "packageManagers": [
+        { "name": "Swift Package Manager", "versions": ["5.0+"] },
+        { "name": "CocoaPods", "versions": ["1.11", "1.12", "1.13", "1.14", "1.15"] },
+        { "name": "Carthage", "versions": ["0.38", "0.39"] }
+      ],
+      "dependencyFile": { "file": "Package.swift", "desc": "for Swift Package Manager" },
+      "frameworks": [
+        {
+          "name": "UIKit",
+          "versions": ["iOS 13+", "iOS 14+", "iOS 15+", "iOS 16+", "iOS 17+", "iOS 18+"],
+          "type": "iOS UI Framework",
+          "libraries": [
+            { "name": "SnapKit", "versions": ["5.x"] },
+            { "name": "Alamofire", "versions": ["5.x"] },
+            { "name": "Kingfisher", "versions": ["7.x"] }
+          ]
+        },
+        {
+          "name": "SwiftUI",
+          "versions": ["iOS 13+", "iOS 14+", "iOS 15+", "iOS 16+", "iOS 17+", "iOS 18+"],
+          "type": "Declarative UI Framework",
+          "libraries": [
+            { "name": "Combine", "versions": ["iOS 13+"] },
+            { "name": "SwiftUI Navigation", "versions": ["1.x"] }
+          ]
+        },
+        {
+          "name": "Vapor",
+          "versions": ["4.x"],
+          "type": "Server-side Framework",
+          "libraries": [
+            { "name": "Fluent", "versions": ["4.x"] },
+            { "name": "Leaf", "versions": ["4.x"] }
+          ]
+        }
+      ],
+      "commonLibraries": [
+        { "name": "Alamofire", "versions": ["5.x"] },
+        { "name": "SwiftyJSON", "versions": ["5.x"] },
+        { "name": "RxSwift", "versions": ["6.x"] },
+        { "name": "Realm", "versions": ["10.x"] },
+        { "name": "Moya", "versions": ["15.x"] },
+        { "name": "Firebase", "versions": ["10.x"] }
+      ]
+    },
+    {
+      "id": 10,
+      "name": "Kotlin",
+      "versions": ["1.6", "1.7", "1.8", "1.9", "2.0"],
+      "packageManagers": [
+        { "name": "Gradle", "versions": ["7.x", "8.x"] },
+        { "name": "Maven", "versions": ["3.6", "3.8", "3.9"] }
+      ],
+      "dependencyFile": { "file": "build.gradle", "desc": "for Gradle-based Kotlin projects" },
+      "frameworks": [
+        {
+          "name": "Spring Boot",
+          "versions": ["2.6", "2.7", "3.0", "3.1", "3.2", "3.3"],
+          "type": "Enterprise Framework",
+          "libraries": [
+            { "name": "Spring Data JPA", "versions": ["2.7", "3.0", "3.1", "3.2", "3.3"] },
+            { "name": "Spring Security", "versions": ["5.7", "6.0", "6.1", "6.2", "6.3"] },
+            { "name": "Kotlin Coroutines", "versions": ["1.6", "1.7", "1.8"] }
+          ]
+        },
+        {
+          "name": "Ktor",
+          "versions": ["2.0", "2.1", "2.2", "2.3"],
+          "type": "Async Web Framework",
+          "libraries": [
+            { "name": "ktor-serialization", "versions": ["2.0", "2.1", "2.2", "2.3"] },
+            { "name": "ktor-client", "versions": ["2.0", "2.1", "2.2", "2.3"] },
+            { "name": "ktor-server-netty", "versions": ["2.0", "2.1", "2.2", "2.3"] }
+          ]
+        },
+        {
+          "name": "Android",
+          "versions": ["API 29", "API 30", "API 31", "API 32", "API 33", "API 34"],
+          "type": "Mobile Framework",
+          "libraries": [
+            { "name": "Jetpack Compose", "versions": ["1.3", "1.4", "1.5", "1.6"] },
+            { "name": "Compose Material3", "versions": ["1.0", "1.1", "1.2"] },
+            { "name": "Compose Navigation", "versions": ["2.5", "2.6", "2.7"] },
+            { "name": "Room", "versions": ["2.5", "2.6"] },
+            { "name": "Hilt", "versions": ["2.44", "2.48", "2.50", "2.51"] },
+            { "name": "Retrofit", "versions": ["2.9", "2.10", "2.11"] },
+            { "name": "OkHttp", "versions": ["4.x", "5.x"] },
+            { "name": "Glide", "versions": ["4.x"] },
+            { "name": "Coil", "versions": ["2.x"] }
+          ]
+        }
+      ],
+      "commonLibraries": [
+        { "name": "kotlinx.coroutines", "versions": ["1.6", "1.7", "1.8"] },
+        { "name": "kotlinx.serialization", "versions": ["1.4", "1.5", "1.6", "1.7"] },
+        { "name": "Exposed", "versions": ["0.40", "0.44", "0.48", "0.53"] },
+        { "name": "Koin", "versions": ["3.3", "3.4", "3.5"] },
+        { "name": "Arrow", "versions": ["1.1", "1.2"] },
+        { "name": "MockK", "versions": ["1.12", "1.13"] }
+      ]
+    }
+  ]
+}
